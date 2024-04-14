@@ -9,15 +9,28 @@ import {
 } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {ROUTES} from '../helpers/routes';
+import {useDispatch, useSelector} from 'react-redux';
 
 const HomeScreen = ({navigation}) => {
+  const {counter} = useSelector(state => state.counter);
+  const dispatch = useDispatch();
+
+  const incrementCounter = () => {
+    dispatch({type: 'INCREMENT'});
+  };
+
+  const decrementCounter = () => {
+    dispatch({type: 'DECREMENT'});
+  };
   return (
     <ImageBackground
       source={{uri: 'https://source.unsplash.com/1600x900/?books'}} // Replace URL with your image URL
       style={styles.container}
       blurRadius={1}>
       <View style={styles.content}>
-        <Text style={styles.title}>Bienvenidos a la libreria da vinci</Text>
+        <Text style={styles.title}>Bienvenidos a {counter}</Text>
+        <Button title="Decrementar contador" onPress={decrementCounter} />
+        <Button title="Incrementar contador" onPress={incrementCounter} />
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate(ROUTES.BOOKS.STACK.BOOKS_LIST)}>

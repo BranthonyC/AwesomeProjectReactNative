@@ -9,6 +9,8 @@ import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {ROUTES} from './src/helpers/routes';
 import AddBookForm from './src/screens/books/AddBook';
 import WebSocket from './src/screens/labs/Websocket';
+import {Provider} from 'react-redux';
+import store from './src/states/store';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -90,37 +92,39 @@ function shouldRenderDrawerParent(route) {
 
 function App() {
   return (
-    <NavigationContainer>
-      <Drawer.Navigator initialRouteName={ROUTES.HOME.INDEX}>
-        <Drawer.Screen
-          name={ROUTES.HOME.INDEX}
-          component={HomeStack}
-          options={({route}) => ({
-            headerTitle: 'Inicio',
-            drawerLabel: 'Inicio',
-            headerShown: shouldRenderDrawerParent(route),
-          })}
-        />
-        <Drawer.Screen
-          name={ROUTES.BOOKS.INDEX}
-          component={BooksStack}
-          options={({route}) => ({
-            headerTitle: 'Libros',
-            drawerLabel: 'Libros',
-            headerShown: shouldRenderDrawerParent(route),
-          })}
-        />
-        <Drawer.Screen
-          name="Labs"
-          component={WebSocket}
-          options={({route}) => ({
-            headerTitle: 'WebSocket',
-            drawerLabel: 'WebSocket',
-            headerShown: shouldRenderDrawerParent(route),
-          })}
-        />
-      </Drawer.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName={ROUTES.HOME.INDEX}>
+          <Drawer.Screen
+            name={ROUTES.HOME.INDEX}
+            component={HomeStack}
+            options={({route}) => ({
+              headerTitle: 'Inicio',
+              drawerLabel: 'Inicio',
+              headerShown: shouldRenderDrawerParent(route),
+            })}
+          />
+          <Drawer.Screen
+            name={ROUTES.BOOKS.INDEX}
+            component={BooksStack}
+            options={({route}) => ({
+              headerTitle: 'Libros',
+              drawerLabel: 'Libros',
+              headerShown: shouldRenderDrawerParent(route),
+            })}
+          />
+          <Drawer.Screen
+            name="Labs"
+            component={WebSocket}
+            options={({route}) => ({
+              headerTitle: 'WebSocket',
+              drawerLabel: 'WebSocket',
+              headerShown: shouldRenderDrawerParent(route),
+            })}
+          />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

@@ -13,10 +13,12 @@ import {getBooks} from '../../services/apiService';
 import BookFactory from '../../factories/BookFactory';
 import {useRoute} from '@react-navigation/native';
 import {ROUTES} from '../../helpers/routes';
+import {useSelector} from 'react-redux';
 
 const BooksList = ({navigation}) => {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
+  const {counter} = useSelector(state => state.counter);
   const route = useRoute();
 
   useEffect(() => {
@@ -44,7 +46,7 @@ const BooksList = ({navigation}) => {
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => navigation.navigate(ROUTES.BOOKS.STACK.NEW_BOOK)}>
-        <Text style={styles.addButtonLabel}>Add Book</Text>
+        <Text style={styles.addButtonLabel}>Add Book {counter + 1}</Text>
       </TouchableOpacity>
       {error ? (
         <Text>Error: {error}</Text>
