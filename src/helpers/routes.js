@@ -1,4 +1,10 @@
 export const ROUTES = {
+  LABS: {
+    INDEX: 'LabsDrawer',
+    STACK: {
+      WEBSOCKET: 'WebSocket',
+    },
+  },
   HOME: {
     INDEX: 'InicioDrawer',
     STACK: {

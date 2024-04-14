@@ -8,13 +8,11 @@ import BooksList from './src/screens/books/BooksList';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {ROUTES} from './src/helpers/routes';
 import AddBookForm from './src/screens/books/AddBook';
+import WebSocket from './src/screens/labs/Websocket';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-// screenOptions={({navigation}) => ({
-//   headerShown: false,
-//   ...TransitionPresets.SlideFromRightIOS, // optional: slide animation for transition
-// })}
+
 function HomeStack() {
   return (
     <Stack.Navigator initialRouteName={ROUTES.HOME.STACK.HOME}>
@@ -47,26 +45,43 @@ function BooksStack() {
   );
 }
 
+function LabsStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name={ROUTES.LABS.STACK.WEBSOCKET}
+        component={WebSocket}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function getHeaderTitle(route) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? ROUTES.HOME.HOME;
-
   switch (routeName) {
-    case ROUTES.HOME.HOME:
+    case undefined:
       return 'Libreria Da Vinci';
     case ROUTES.BOOKS.STACK.BOOKS_LIST:
       return 'Lista de libros';
     case ROUTES.BOOKS.STACK.NEW_BOOK:
       return 'Agregar libro';
+    case ROUTES.LABS.INDEX:
+      return 'WebSocket';
     default:
       return 'Not implemented yet';
   }
 }
+
 function shouldRenderDrawerParent(route) {
   const routeName = getFocusedRouteNameFromRoute(route);
   console.log(routeName);
   switch (routeName) {
     case undefined:
     case ROUTES.BOOKS.STACK.BOOKS_LIST:
+    case ROUTES.LABS.INDEX:
       return true;
     default:
       return false;
@@ -81,8 +96,8 @@ function App() {
           name={ROUTES.HOME.INDEX}
           component={HomeStack}
           options={({route}) => ({
-            headerTitle: getHeaderTitle(route),
-            drawerLabel: getHeaderTitle(route),
+            headerTitle: 'Inicio',
+            drawerLabel: 'Inicio',
             headerShown: shouldRenderDrawerParent(route),
           })}
         />
@@ -90,8 +105,17 @@ function App() {
           name={ROUTES.BOOKS.INDEX}
           component={BooksStack}
           options={({route}) => ({
-            headerTitle: getHeaderTitle(route),
-            drawerLabel: getHeaderTitle(route),
+            headerTitle: 'Libros',
+            drawerLabel: 'Libros',
+            headerShown: shouldRenderDrawerParent(route),
+          })}
+        />
+        <Drawer.Screen
+          name="Labs"
+          component={WebSocket}
+          options={({route}) => ({
+            headerTitle: 'WebSocket',
+            drawerLabel: 'WebSocket',
             headerShown: shouldRenderDrawerParent(route),
           })}
         />
